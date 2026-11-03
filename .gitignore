@@ -1,0 +1,8 @@
+node_modules/
+dist/
+coverage/
+*.tgz
+playwright-report/
+test-results/
+tests/editor/__screenshots__/
+.vitest-attachments/

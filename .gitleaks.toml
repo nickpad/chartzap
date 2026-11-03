@@ -1,0 +1,6 @@
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Installed dependencies and Git object storage are scanned separately from project files"
+paths = ['''(^|/)node_modules/''', '''(^|/)\.git/''']

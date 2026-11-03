@@ -1,0 +1,81 @@
+# Function with no arguments
+
+SOMETHING()
+
+==>
+
+Formula(FunctionCall(Identifier, ArgumentList))
+
+# Function with one argument
+
+COUNT(1)
+
+==>
+
+Formula(FunctionCall(Identifier, ArgumentList(Number)))
+
+# Function with multiple arguments
+
+CONCAT("Hello", " ", "World")
+
+==>
+
+Formula(
+  FunctionCall(
+    Identifier,
+    ArgumentList(
+      Text,
+      Comma,
+      Text,
+      Comma,
+      Text
+    )
+  )
+)
+
+# Function with lowercase identifier
+
+concat("Hello", 123)
+
+==>
+
+Formula(
+  FunctionCall(
+    Identifier,
+    ArgumentList(
+      Text,
+      Comma,
+      Number
+    )
+  )
+)
+
+# Function with nested function
+
+if([Product/quantity] > 100, "Good", concat("Low stock: ", [Product/name]))
+
+==>
+
+Formula(
+  FunctionCall(
+    Identifier,
+    ArgumentList(
+      BinaryExpression(
+        Column(ObjectName, ObjectName),
+        GreaterThan,
+        Number
+      ),
+      Comma,
+      Text,
+      Comma,
+      FunctionCall(
+        Identifier,
+        ArgumentList(
+          Text,
+          Comma,
+          Column(ObjectName, ObjectName)
+        )
+      )
+    )
+  )
+)

@@ -1,0 +1,58 @@
+{
+  "name": "@chartzap/postgres",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Join planning and parameterized PostgreSQL compilation",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nickpad/chartzap.git",
+    "directory": "packages/postgres"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./queryplan": {
+      "types": "./dist/queryplan/index.d.ts",
+      "import": "./dist/queryplan/index.js"
+    },
+    "./queryplan/types": {
+      "types": "./dist/queryplan/types.d.ts",
+      "import": "./dist/queryplan/types.js"
+    },
+    "./sqlgen": {
+      "types": "./dist/sqlgen/index.d.ts",
+      "import": "./dist/sqlgen/index.js"
+    },
+    "./sqlgen/render": {
+      "types": "./dist/sqlgen/render.d.ts",
+      "import": "./dist/sqlgen/render.js"
+    },
+    "./sqlgen/sql-expression": {
+      "types": "./dist/sqlgen/sql-expression.d.ts",
+      "import": "./dist/sqlgen/sql-expression.js"
+    },
+    "./sqlgen/sql-text": {
+      "types": "./dist/sqlgen/sql-text.d.ts",
+      "import": "./dist/sqlgen/sql-text.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "dependencies": {
+    "@chartzap/core": "workspace:*",
+    "tiny-invariant": "^1.3.3"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

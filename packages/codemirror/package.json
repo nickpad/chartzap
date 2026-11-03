@@ -1,0 +1,68 @@
+{
+  "name": "@chartzap/codemirror",
+  "version": "0.1.0",
+  "private": true,
+  "description": "CodeMirror analytical formula language with optional React editor",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nickpad/chartzap.git",
+    "directory": "packages/codemirror"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./autocomplete": {
+      "types": "./dist/autocomplete.d.ts",
+      "import": "./dist/autocomplete.js"
+    },
+    "./func-focus": {
+      "types": "./dist/func-focus.d.ts",
+      "import": "./dist/func-focus.js"
+    },
+    "./language": {
+      "types": "./dist/language.d.ts",
+      "import": "./dist/language.js"
+    },
+    "./linter": {
+      "types": "./dist/linter.d.ts",
+      "import": "./dist/linter.js"
+    },
+    "./react": {
+      "types": "./dist/react.d.ts",
+      "import": "./dist/react.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "dependencies": {
+    "@chartzap/core": "workspace:*",
+    "@codemirror/autocomplete": "^6.20.0",
+    "@codemirror/commands": "^6.10.1",
+    "@codemirror/language": "^6.11.3",
+    "@codemirror/lint": "^6.9.2",
+    "@codemirror/state": "^6.5.2",
+    "@codemirror/view": "^6.39.4",
+    "@lezer/highlight": "^1.2.3"
+  },
+  "peerDependencies": {
+    "react": ">=19"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

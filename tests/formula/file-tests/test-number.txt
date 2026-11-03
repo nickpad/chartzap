@@ -1,0 +1,47 @@
+# Short integer
+
+1
+
+==>
+
+Formula(Number)
+
+# Longer integer
+
+12345
+
+==>
+
+Formula(Number)
+
+# Decimal
+
+123.456
+
+==>
+
+Formula(Number)
+
+# Invalid decimal with spaces
+
+123 . 456
+
+==>
+
+Formula(BinaryExpression(Number, ⚠, ⚠, Number))
+
+# Negative number
+
+-123
+
+==>
+
+Formula(Number)
+
+# Negative decimal
+
+-123.456
+
+==>
+
+Formula(Number)

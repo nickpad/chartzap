@@ -1,0 +1,93 @@
+# Multiply
+
+25 * 4
+
+==>
+
+Formula(BinaryExpression(Number,Multiply,Number))
+
+# Nested binary operators
+
+(25 * 4) + 4
+
+==>
+
+Formula(
+  BinaryExpression(
+    Parens(
+      BinaryExpression(
+        Number, Multiply, Number
+      ),
+    )
+    Add,
+    Number
+  )
+)
+
+# Binary operators with differing precedence
+
+25 * 100 + 5
+
+==>
+
+Formula(
+  BinaryExpression(
+    BinaryExpression(
+      Number, Multiply, Number
+    )
+    Add,
+    Number
+  )
+)
+
+# Many binary operators with differing precedence
+
+25 * 100 + 5 / 7 > 500
+
+==>
+
+Formula(
+  BinaryExpression(
+    BinaryExpression(
+      BinaryExpression(
+        Number, Multiply, Number
+      )
+      Add,
+      BinaryExpression(
+        Number, Divide, Number
+      ),
+    ),
+    GreaterThan,
+    Number
+  )
+)
+
+# Many binary operators with custom precedence
+
+((25 * (100 + 5)) / 7) >= 500
+
+==>
+
+Formula(
+  BinaryExpression(
+    Parens(
+      BinaryExpression(
+        Parens(
+          BinaryExpression(
+            Number,
+            Multiply,
+            Parens(
+              BinaryExpression(
+                Number, Add, Number
+              )
+            )
+          )
+        ),
+        Divide,
+        Number
+      )
+    ),
+    GreaterThanEqual,
+    Number
+  )
+)

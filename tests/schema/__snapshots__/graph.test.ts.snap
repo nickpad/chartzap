@@ -1,0 +1,28 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Graph > serialization > serialized format matches snapshot 1`] = `
+{
+  "edges": [
+    {
+      "fromColumnId": 26,
+      "fromNodeId": "test-0",
+      "id": "test-2",
+      "toColumnId": 27,
+      "toNodeId": "test-1",
+    },
+  ],
+  "nodes": [
+    {
+      "id": "test-0",
+      "name": "Customers",
+      "relationId": 1,
+    },
+    {
+      "id": "test-1",
+      "name": "Orders",
+      "relationId": 2,
+    },
+  ],
+  "version": 1,
+}
+`;

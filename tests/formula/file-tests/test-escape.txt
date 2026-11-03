@@ -1,0 +1,31 @@
+# Text with escape sequences
+
+"Hello \"Big\" World"
+
+==>
+
+Formula(Text)
+
+# Field reference with escaped forward slash
+
+[Region\/AMER/revenue_usd]
+
+==>
+
+Formula(
+  Column(
+    ObjectName, ObjectName
+  )
+)
+
+# Field reference with escaped brackets
+
+[Region\[AMER\]/revenue_usd]
+
+==>
+
+Formula(
+  Column(
+    ObjectName, ObjectName
+  )
+)

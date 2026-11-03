@@ -1,0 +1,54 @@
+# Formula containing a column reference
+
+[Order/total_amount]
+
+==>
+
+Formula(Column(ObjectName, ObjectName))
+
+# Formula containing a result set column reference
+
+{Total sales}
+
+==>
+
+Formula(ResultSetColumn(ResultSetColumnName))
+
+# Formula containing a column reference with escaped characters
+
+[Region\/AMER\/West/sales_total]
+
+==>
+
+Formula(Column(ObjectName, ObjectName))
+
+# Formula containing a result set column reference with escaped characters
+
+{Region\/AMER\/West}
+
+==>
+
+Formula(ResultSetColumn(ResultSetColumnName))
+
+# Result set column reference as function argument
+
+IF({Total sales} > 100, "Yes", "No")
+
+==>
+
+Formula(
+  FunctionCall(
+    Identifier,
+    ArgumentList(
+      BinaryExpression(
+        ResultSetColumn(ResultSetColumnName),
+        GreaterThan,
+        Number
+      ),
+      Comma,
+      Text,
+      Comma,
+      Text
+    )
+  )
+)

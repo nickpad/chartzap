@@ -1,0 +1,35 @@
+# Formula containing a comment at start of line
+
+// Convert cents to dollars
+[Order/total_amount] / 100
+
+==>
+
+Formula(
+  LineComment,
+  BinaryExpression(
+    Column(ObjectName, ObjectName),
+    Divide,
+    Number
+  )
+)
+
+# Formula containing a comment at end of line
+
+3.142 * SQUARE([Locations/radius]) // Pi times radius squared
+
+==>
+
+Formula(
+  BinaryExpression(
+    Number,
+    Multiply,
+    FunctionCall(
+      Identifier,
+      ArgumentList(
+        Column(ObjectName, ObjectName)
+      )
+    )
+  ),
+  LineComment
+)

@@ -1,0 +1,24 @@
+# Keyword
+
+TRUE
+
+==>
+
+Formula(Keyword(True))
+
+# A keyword as a function argument
+
+DOSOMETHING(123, FALSE)
+
+==>
+
+Formula(
+  FunctionCall(
+    Identifier,
+    ArgumentList(
+      Number,
+      Comma,
+      Keyword(False)
+    )
+  )
+)

@@ -1,0 +1,89 @@
+@precedence {
+  scaling @left
+  arithmetic @left
+  comparison @left
+  logical @left
+}
+
+@top Formula { expression }
+
+@skip {
+  space | LineComment
+}
+
+expression { ResultSetColumn | Column | Number | Text | BinaryExpression | FunctionCall | Parens | Keyword }
+
+BinaryExpression {
+  expression !scaling (Multiply | Divide) expression |
+  expression !arithmetic (Add | Subtract) expression |
+  expression !comparison (LessThan | LessThanEqual | GreaterThan | GreaterThanEqual | Equal | NotEqual) expression |
+  expression !logical (And | Or) expression
+}
+
+Parens {
+  "(" expression ")"
+}
+
+ArgumentList {
+  "(" commaSep<expression>? ")"
+}
+
+Keyword {
+  True { @specialize<Identifier, "TRUE" | "true" | "True"> } |
+  False { @specialize<Identifier, "FALSE" | "false" | "False"> }
+}
+
+commaSep<expr> { expr (Comma expr)* Comma? }
+
+@skip {} {
+  FunctionCall {
+    Identifier ArgumentList
+  }
+  Column {
+    "[" ObjectName "/" ObjectName "]"
+  }
+  ResultSetColumn {
+    "{" ResultSetColumnName "}"
+  }
+}
+
+@tokens {
+  Identifier { $[A-Za-z] $[A-Za-z0-9_]+ }
+
+  Number { $[-]? @digit+ ("." @digit+)? }
+
+  Divide { "/" }
+  Multiply { "*" }
+  Add { "+" }
+  Subtract { "-" }
+
+  LessThan { "<" }
+  LessThanEqual { "<=" }
+  GreaterThan { ">" }
+  GreaterThanEqual { ">=" }
+  Equal { "=" }
+  NotEqual { "<>" }
+
+  And { "AND" | "and" | "And" }
+  Or { "OR" | "or" | "Or" }
+
+  Comma { "," }
+  LineComment { "//" ![\n]* }
+  @precedence { LineComment, Divide }
+
+  textContent { ![\\\n"]+ }
+  textEscape { '\\"' }
+  Text {
+    '"' (textContent | textEscape)* '"'
+  }
+
+  objectContent { ![\[\]\/]+ }
+  objectEscape { "\\/" | "\\[" | "\\]" }
+  ObjectName { (objectContent | objectEscape)+ }
+
+  resultSetColumnContent { ![\{\}]+ }
+  resultSetColumnEscape { "\\{" | "\\}" }
+  ResultSetColumnName { (resultSetColumnContent | resultSetColumnEscape)+ }
+
+  space { @whitespace+ }
+}
