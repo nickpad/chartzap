@@ -91,3 +91,20 @@ test("executes hostile multi-quote identifiers without changing SQL structure", 
   expect(rows[0][name]).toBe("O'Brien 'x'");
   expect((await client.query("SELECT count(*) FROM atelier.orders")).rows[0].count).toBe("3");
 });
+
+test("output IDs may match internal alias candidates", async () => {
+  const result = engine.compileQuery({
+    columns: [
+      { id: "key 0", name: "Studio", formula: "[Studios/name]" },
+      { id: "a0_0", name: "Count", formula: "COUNT([Orders/id])" },
+    ],
+    compiler: postgres(),
+  });
+  expect(result.ok).toBe(true);
+  if (!result.ok) return;
+  const rows = (await client.query(result.sql.text, result.sql.parameters)).rows;
+  expect(rows.map((r) => ({ Studio: r["key 0"], Count: Number(r.a0_0) }))).toEqual([
+    { Studio: "East", Count: 2 },
+    { Studio: "West", Count: 1 },
+  ]);
+});

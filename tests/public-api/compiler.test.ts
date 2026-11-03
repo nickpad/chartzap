@@ -234,3 +234,19 @@ test("deserialized graphs can be extended without ID collisions", () => {
   expect(restored.getNode(id).name).toBe("Other");
   expect(restored.allNodes().length).toBe(4);
 });
+
+test("generated key and aggregate aliases avoid user output IDs", () => {
+  const result = engine.compileQuery({
+    columns: [
+      { id: "key 0", name: "Studio", formula: "[Studios/name]" },
+      { id: "a0_0", name: "Count", formula: "COUNT([Orders/id])" },
+    ],
+    compiler: postgres(),
+  });
+  expect(result.ok).toBe(true);
+  if (!result.ok) return;
+  for (const cte of result.plan.ctes) {
+    const aliases = cte.query.select.map((c) => c.alias);
+    expect(new Set(aliases).size).toBe(aliases.length);
+  }
+});

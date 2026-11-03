@@ -18,6 +18,7 @@ import type {
 function buildQueryPlan(config: BuildQueryPlanConfig): FinalQuery {
   const { columns: inputColumns, filter, graph } = config;
 
+  const outputIds = new Set(inputColumns.map((column) => column.id));
   // Sort by stable ID so the same query has the same plan.
   const columns = [...inputColumns]
     .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))
@@ -25,7 +26,7 @@ function buildQueryPlan(config: BuildQueryPlanConfig): FinalQuery {
       ...column,
       aggregates: column.aggregates.map((aggregate, aggregateIndex) => ({
         ...aggregate,
-        alias: `a${columnIndex}_${aggregateIndex}`,
+        alias: internalAlias(`a${columnIndex}_${aggregateIndex}`, outputIds),
       })),
     }));
 
@@ -173,7 +174,7 @@ function makeJoinCTEs(graph: Graph, dims: CheckedColumn[], measures: CheckedColu
                 id: -1,
                 meta: { from: 0, to: 0 },
               } as Column,
-              alias: `key ${index}`,
+              alias: internalAlias(`key ${index}`, new Set(dims.map((d) => d.id))),
             })),
           ] as FormulaColumn[],
           from: {
@@ -236,7 +237,7 @@ function makeAggregateCTEs(graph: Graph, dims: CheckedColumn[], measures: Checke
                 targetSchema: a.node.relation.schema,
                 conditions: pk.columnNames.map((columnName, index) => ({
                   sourceRelation: `join: ${a.alias}`,
-                  sourceAttribute: `key ${index}`,
+                  sourceAttribute: internalAlias(`key ${index}`, new Set(dims.map((d) => d.id))),
                   targetAttribute: columnName,
                   joinNulls: false,
                 })),
@@ -523,6 +524,13 @@ function partitionDimensions(dims: CheckedColumn[]) {
     }
   }
   return [regularDims, scalarDims] as const;
+}
+
+function internalAlias(base: string, outputIds: Set<string>): string {
+  let alias = base;
+  let suffix = 1;
+  while (outputIds.has(alias)) alias = `${base}_${suffix++}`;
+  return alias;
 }
 
 function numbersUpTo(n: number) {
