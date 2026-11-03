@@ -1,0 +1,12 @@
+{
+  "name": "@chartzap/playground",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@chartzap/codemirror": "workspace:*",
+    "@chartzap/core": "workspace:*",
+    "@chartzap/postgres": "workspace:*",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  }
+}
